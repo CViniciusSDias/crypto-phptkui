@@ -1,0 +1,12 @@
+{
+    "require": {
+        "skoro/tkui": "^0.1.0",
+        "ext-sodium": "*",
+        "ext-mbstring": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "CViniciusSDias\\Crypto\\": "src/"
+        }
+    }
+}

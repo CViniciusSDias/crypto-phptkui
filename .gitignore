@@ -1,0 +1,4 @@
+vendor/
+*.key
+index.php
+.idea/
