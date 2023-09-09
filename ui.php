@@ -12,8 +12,8 @@ require_once 'vendor/autoload.php';
 $environment = new class implements Environment
 {
     private static array $environmentData = [
-        'WINDOWS_LIB_TCL' => __DIR__ . '\IronTcl\bin\tcl86t.dll',
-        'WINDOWS_LIB_TK' => __DIR__ . '\IronTcl\bin\tk86t.dll',
+        'WINDOWS_LIB_TCL' => '.\IronTcl\bin\tcl86t.dll',
+        'WINDOWS_LIB_TK' => '.\IronTcl\bin\tk86t.dll',
         'DEBUG' => true,
     ];
 

@@ -7,11 +7,8 @@ namespace CViniciusSDias\Crypto\Ui;
 use Tkui\Application;
 use Tkui\Dialogs\DirectoryDialog;
 use Tkui\Dialogs\OpenFileDialog;
-use Tkui\Environment;
 use Tkui\Layouts\Pack;
-use Tkui\TclTk\TkAppFactory;
 use Tkui\Widgets\Buttons\Button;
-use Tkui\Widgets\Combobox;
 use Tkui\Widgets\Consts\Anchor;
 use Tkui\Widgets\Consts\Orient;
 use Tkui\Widgets\Container;
@@ -21,9 +18,17 @@ use Tkui\Widgets\LabelFrame;
 use Tkui\Widgets\Menu\Menu;
 use Tkui\Widgets\Menu\MenuItem;
 use Tkui\Widgets\PanedWindow;
-use Tkui\Widgets\Scrollbar;
 use Tkui\Widgets\Text\Text;
-use Tkui\Widgets\Widget;
+use function {
+    sodium_crypto_box_keypair,
+    sodium_crypto_box_publickey,
+    sodium_crypto_box_secretkey,
+    sodium_crypto_box_keypair_from_secretkey_and_publickey,
+    sodium_crypto_box,
+    sodium_bin2hex,
+    sodium_hex2bin,
+    sodium_crypto_box_open,
+};
 
 class MainWindow extends \Tkui\Windows\MainWindow
 {
