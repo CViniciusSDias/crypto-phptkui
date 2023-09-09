@@ -19,16 +19,14 @@ use Tkui\Widgets\Menu\Menu;
 use Tkui\Widgets\Menu\MenuItem;
 use Tkui\Widgets\PanedWindow;
 use Tkui\Widgets\Text\Text;
-use function {
-    sodium_crypto_box_keypair,
-    sodium_crypto_box_publickey,
-    sodium_crypto_box_secretkey,
-    sodium_crypto_box_keypair_from_secretkey_and_publickey,
-    sodium_crypto_box,
-    sodium_bin2hex,
-    sodium_hex2bin,
-    sodium_crypto_box_open,
-};
+use function sodium_crypto_box_keypair;
+use function sodium_crypto_box_publickey;
+use function sodium_crypto_box_secretkey;
+use function sodium_crypto_box_keypair_from_secretkey_and_publickey;
+use function sodium_crypto_box;
+use function sodium_bin2hex;
+use function sodium_hex2bin;
+use function sodium_crypto_box_open;
 
 class MainWindow extends \Tkui\Windows\MainWindow
 {
