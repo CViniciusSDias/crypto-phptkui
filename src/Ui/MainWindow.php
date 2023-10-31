@@ -23,10 +23,10 @@ use function sodium_crypto_box_keypair;
 use function sodium_crypto_box_publickey;
 use function sodium_crypto_box_secretkey;
 use function sodium_crypto_box_keypair_from_secretkey_and_publickey;
-use function sodium_crypto_box;
 use function sodium_bin2hex;
 use function sodium_hex2bin;
-use function sodium_crypto_box_open;
+use function sodium_crypto_box_seal;
+use function sodium_crypto_box_seal_open;
 
 class MainWindow extends \Tkui\Windows\MainWindow
 {
@@ -34,7 +34,6 @@ class MainWindow extends \Tkui\Windows\MainWindow
     private string $secretKeyPath = '';
     private Text $messageText;
     private Text $resultText;
-    private ?string $keyPair = null;
 
     public function __construct(Application $app, string $title)
     {
@@ -153,29 +152,22 @@ class MainWindow extends \Tkui\Windows\MainWindow
         $encryptButton = new Button($frame, 'Encrypt');
         $encryptButton->onClick(function (): void {
             $plainText = $this->messageText->getContent();
-            $this->keyPair ??= sodium_crypto_box_keypair_from_secretkey_and_publickey(
-                file_get_contents($this->secretKeyPath),
-                file_get_contents($this->publicKeyPath),
-            );
-            $nonce = random_bytes(SODIUM_CRYPTO_BOX_NONCEBYTES);
-            $cypher = sodium_crypto_box($plainText, $nonce, $this->keyPair);
+            $cypher = sodium_crypto_box_seal($plainText, file_get_contents($this->publicKeyPath));
 
-            $this->resultText->setContent(sodium_bin2hex($nonce . $cypher));
+            $this->resultText->setContent(sodium_bin2hex($cypher));
         });
 
         $decryptButton = new Button($frame, 'Decrypt');
         $decryptButton->onClick(function (): void {
             $message = sodium_hex2bin(trim($this->messageText->getContent()));
-            $nonce = mb_substr($message, 0, SODIUM_CRYPTO_BOX_NONCEBYTES, encoding: '8bit');
-            $cypher = mb_substr($message, SODIUM_CRYPTO_BOX_NONCEBYTES, encoding: '8bit');
-            $this->keyPair ??= sodium_crypto_box_keypair_from_secretkey_and_publickey(
+            $keyPair = sodium_crypto_box_keypair_from_secretkey_and_publickey(
                 file_get_contents($this->secretKeyPath),
                 file_get_contents($this->publicKeyPath),
             );
 
-            $plainText = sodium_crypto_box_open($cypher, $nonce, $this->keyPair);
+            $plainText = sodium_crypto_box_seal_open($message, $keyPair);
 
-            $this->resultText->setContent($plainText);
+            $this->resultText->setContent($plainText ?: 'Erro ao decifrar');
         });
 
         $frame->borderWidth = 1;
