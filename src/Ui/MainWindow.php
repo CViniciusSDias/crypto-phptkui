@@ -8,6 +8,7 @@ use Tkui\Application;
 use Tkui\Dialogs\DirectoryDialog;
 use Tkui\Dialogs\OpenFileDialog;
 use Tkui\Layouts\Pack;
+use Tkui\Options;
 use Tkui\Widgets\Buttons\Button;
 use Tkui\Widgets\Consts\Anchor;
 use Tkui\Widgets\Consts\Orient;
@@ -58,13 +59,17 @@ class MainWindow extends \Tkui\Windows\MainWindow
         $this->pack([$panedWindow, $messageFrame, $buttonsFrame, $resultFrame], ['padY' => 10]);
 
         $windowManager = $this->getWindowManager();
-        $windowManager->setSize(480, 380);
-        $windowManager->setMinSize(480, 380);
+        $windowManager->setSize(1440, 650);
+        $windowManager->setMinSize(1440, 650);
     }
 
     private function defineApplicationMenu(): void
     {
-        $menu = new Menu($this);
+        $menu = new Menu($this, [
+            'font' => [
+                'size' => 20,
+            ]
+        ]);
 
         $menu->addMenu('Keys')
             ->addItem(new MenuItem('Create keypair', function () {
